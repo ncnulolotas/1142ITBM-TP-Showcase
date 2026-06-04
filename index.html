@@ -184,6 +184,10 @@
     }
 
     .segmented button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
       padding: 0 14px;
       border-radius: 999px;
       background: transparent;
@@ -199,10 +203,12 @@
     }
 
     .icon-button {
-      display: inline-grid;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
       width: 48px;
       height: 48px;
-      place-items: center;
       border: 1.5px solid var(--ink);
       border-radius: 50%;
       background: var(--white);
@@ -686,14 +692,15 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding: 8px 16px;
-        min-height: 52px;
+        padding: 6px 12px;
+        min-height: 48px;
         border-radius: 999px;
+        border-width: 1px;
       }
 
       .brand-text strong {
-        font-size: 0.92rem;
-        max-width: 140px;
+        font-size: 0.88rem;
+        max-width: 130px;
       }
 
       .controls {
@@ -705,18 +712,29 @@
       .segmented {
         width: auto;
         padding: 2px;
+        grid-template-columns: repeat(2, minmax(36px, 1fr));
+        border-width: 1px;
       }
 
       .segmented button {
-        min-height: 32px;
-        padding: 0 10px;
-        font-size: 0.82rem;
+        min-height: 28px;
+        padding: 0;
+        font-size: 0.78rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
       }
 
       .icon-button {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        border-width: 1px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
       }
 
       .section-heading {
@@ -1385,7 +1403,6 @@
             <h2 data-i18n="galleryTitle">Project previews</h2>
             <p data-i18n="gallerySubtitle">Each circular preview links to a student team SPA and gives the class a quick sense of the company focus.</p>
           </div>
-          <a class="button secondary" id="reviewLinkGallery" href="#" target="_blank" rel="noopener noreferrer" data-i18n="peerReviewShort">Evaluation Form</a>
         </div>
         <div class="projects-grid" id="projectsGrid"></div>
       </div>
