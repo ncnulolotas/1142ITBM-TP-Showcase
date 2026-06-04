@@ -707,23 +707,29 @@
         flex-direction: row;
         align-items: center;
         gap: 6px;
+        flex-shrink: 0;
       }
 
       .segmented {
         width: auto;
         padding: 2px;
-        grid-template-columns: repeat(2, minmax(36px, 1fr));
+        grid-template-columns: repeat(2, minmax(38px, 1fr));
         border-width: 1px;
+        flex-shrink: 0;
       }
 
       .segmented button {
+        height: 28px;
         min-height: 28px;
-        padding: 0;
+        padding: 0 4px;
         font-size: 0.78rem;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         line-height: 1;
+        overflow: visible;
+        border: 0;
+        background: transparent;
       }
 
       .icon-button {
@@ -735,6 +741,7 @@
         align-items: center;
         justify-content: center;
         line-height: 1;
+        flex-shrink: 0;
       }
 
       .section-heading {
