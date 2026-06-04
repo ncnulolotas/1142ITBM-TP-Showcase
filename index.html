@@ -666,6 +666,11 @@
       .footer-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
+
+      /* Hide device view switcher in simulator on mobile/tablet */
+      [aria-label="Device view switcher"] {
+        display: none !important;
+      }
     }
 
     @media (max-width: 680px) {
@@ -678,23 +683,45 @@
       }
 
       .nav {
-        align-items: stretch;
-        flex-direction: column;
-        border-radius: 32px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 16px;
+        min-height: 52px;
+        border-radius: 999px;
       }
 
       .brand-text strong {
-        max-width: 210px;
+        font-size: 0.92rem;
+        max-width: 140px;
       }
 
-      .controls,
-      .section-heading {
-        align-items: stretch;
-        flex-direction: column;
+      .controls {
+        flex-direction: row;
+        align-items: center;
+        gap: 6px;
       }
 
       .segmented {
-        width: 100%;
+        width: auto;
+        padding: 2px;
+      }
+
+      .segmented button {
+        min-height: 32px;
+        padding: 0 10px;
+        font-size: 0.82rem;
+      }
+
+      .icon-button {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+      }
+
+      .section-heading {
+        align-items: stretch;
+        flex-direction: column;
       }
 
       .hero {
@@ -1439,6 +1466,10 @@
           <button type="button" id="simDeviceDesktop" aria-pressed="true">💻 Desktop</button>
           <button type="button" id="simDeviceMobile" aria-pressed="false">📱 Mobile</button>
         </div>
+        <div class="segmented" aria-label="Language switcher">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="zh" aria-pressed="false">中</button>
+        </div>
         <button class="icon-button" type="button" id="closeSimulatorBtn" title="Close Live Simulator" aria-label="Close Live Simulator">×</button>
       </div>
     </header>
@@ -2147,6 +2178,7 @@
       if (activeMemberIndex !== -1) {
         openMemberModal(activeMemberIndex);
       }
+      updateSimulatorText();
       stopSpeaking(false);
       voiceStatus.textContent = "";
     }
@@ -2362,6 +2394,45 @@
       if (iframe) iframe.src = "about:blank";
       overlay.classList.remove("active");
       document.body.style.overflow = "";
+    }
+
+    function updateSimulatorText() {
+      const overlay = document.getElementById("simulatorOverlay");
+      if (!overlay || !overlay.classList.contains("active")) return;
+      
+      const project = projects[activeSimulatorIndex];
+      if (!project) return;
+      
+      const compTitle = document.getElementById("simCompanyTitle");
+      const sidebarCompany = document.getElementById("simSidebarCompany");
+      const sidebarDesc = document.getElementById("simSidebarDescription");
+      const openTabBtn = document.getElementById("simOpenTabBtn");
+      const reviewBtn = document.getElementById("simReviewBtn");
+      
+      let safeCompany = project.companyName || "Company Name TBD";
+      if (currentLanguage === "zh" && project.companyNameZh) {
+        safeCompany = project.companyNameZh;
+      } else if (currentLanguage === "zh" && project.companyName === "Delta") {
+        safeCompany = "台達電";
+      }
+      
+      const description = project.description[currentLanguage] || project.description.en;
+      
+      if (compTitle) compTitle.textContent = safeCompany;
+      if (sidebarCompany) sidebarCompany.textContent = safeCompany;
+      if (sidebarDesc) sidebarDesc.textContent = description;
+      
+      if (openTabBtn && openTabBtn.querySelector("span")) {
+        openTabBtn.querySelector("span").textContent = copy[currentLanguage].simOpenTab.replace(" ↗", "");
+      }
+      if (reviewBtn && reviewBtn.querySelector("span")) {
+        reviewBtn.querySelector("span").textContent = copy[currentLanguage].simReview.replace(" 📝", "");
+      }
+      
+      const prevBtn = document.getElementById("simPrevBtn");
+      if (prevBtn) prevBtn.textContent = copy[currentLanguage].simPrev;
+      const nextBtn = document.getElementById("simNextBtn");
+      if (nextBtn) nextBtn.textContent = copy[currentLanguage].simNext;
     }
 
     /* Member Profile Modal Controls */
